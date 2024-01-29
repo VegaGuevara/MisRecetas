@@ -1,0 +1,69 @@
+<div class="container mt-5">
+  <div class="card shadow-lg rounded-3">
+    <div class="card-header">
+      <h3 class="card-title text-center">Nueva Receta</h3>
+    </div>
+    <div class="card">
+      <form id="new-recipe-form" class="px-3 mb-3" (ngSubmit)="addRecipe()">
+        <div class="form-group">
+          <label for="recipeName">Nombre de la receta</label>
+          <input type="text" class="form-control" id="recipeName" aria-describedby="recipe_name" name="recipe_name" [(ngModel)]="newRecipe.recipe_name">
+          <div *ngIf="showRecipeNameWarning" class="alert alert-warning mt-2">
+            Por favor, ingresa el nombre de la receta.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description" class="text-center">Descripción</label>
+          <textarea class="form-control" id="description" name="description" [(ngModel)]="newRecipe.description"></textarea>
+          <div *ngIf="showDescriptionWarning" class="alert alert-warning mt-2">
+            Por favor, ingresa la descripción de la receta.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="imageURL" class="text-center">URL de la imagen</label>
+          <input type="text" class="form-control" id="imageURL" name="imageURL" [(ngModel)]="newRecipe.image">
+        </div>
+        <div class="form-group" *ngFor="let ingredient of newRecipe.ingredients; let i = index; trackBy: trackByIndex">
+          <label for="ingredient{{ i }}" class="d-block">Ingrediente {{ i + 1 }}</label>
+          <div class="d-flex">
+            <input type="text" class="form-control" id="ingredient{{ i }}" name="ingredient{{ i }}" [(ngModel)]="newRecipe.ingredients[i]">
+            <button *ngIf="i === newRecipe.ingredients.length - 1" type="button" class="btn btn-outline-success btn-sm ml-2" (click)="addIngredient()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+              </svg>
+            </button>
+            <button *ngIf="i > 0" type="button" class="btn btn-outline-danger btn-sm ml-2" (click)="removeIngredient(i)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="showIngredientWarning" class="alert alert-warning mt-2">
+          Por favor, agrega al menos un ingrediente.
+        </div>
+        <button type="submit" class="btn btn-outline-primary btn-lg btn-block" [attr.data-toggle]="modalVisible && 'modal'" data-target="#successModal">Guardar Receta</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true" [attr.data-backdrop]="!modalVisible" [class.d-none]="!modalVisible">  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Éxito</h5>
+      </div>
+      <div class="modal-body">
+        <p>Se ha agregado la nueva receta</p>
+        <div class="text-center">
+          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Agregar otra receta</button>
+          <a routerLink="/" class="btn btn-outline-secondary ml-2" data-dismiss="modal">Lista de Recetas</a>        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

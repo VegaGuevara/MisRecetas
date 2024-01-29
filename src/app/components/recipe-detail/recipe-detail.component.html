@@ -1,0 +1,20 @@
+<div *ngIf="recipe" class="container d-flex align-items-center justify-content-center">
+  <div class="card shadow-lg" style="width: 42rem;">
+    <img *ngIf="recipe.image" [src]="recipe.image" alt="{{ recipe.recipe_name }}" class="card-img-top">
+    <div class="card-body">
+      <h5 class="card-title">{{ recipe.recipe_name }}</h5>
+      <p class="card-text">{{ recipe.description }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let ingredient of recipe.ingredients" class="list-group-item">
+        <div class="d-flex align-items-center">
+          <label class="mb-0">
+            <span class="mr-3">&#8226;</span>
+            {{ ingredient }}
+          </label>
+          <input type="checkbox" class="ml-2">
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

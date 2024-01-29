@@ -1,0 +1,29 @@
+<div class="container-fluid  mt-5">
+  <div class="card shadow-lg mx-auto">
+    <div class="card-header">
+      <h3 class="card-title text-center">Lista de recetas</h3>
+      <p class="text-center" *ngIf="lastAddedRecipe !== undefined">Nueva receta: {{ lastAddedRecipe }}</p>
+    </div>
+    <div class="card-body py-2" style="max-height: 300px; overflow-y: auto;">
+      <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Buscar receta. . ." [(ngModel)]="searchTerm" (input)="applySearchFilter()" />
+      </div>
+      <ng-container *ngIf="filteredRecipes.length > 0; else emptyList">
+        <ul class="list-group" style="width: 100%;">
+          <li *ngFor="let recipe of filteredRecipes; let i = index" class="list-group-item mb-1 p-1" [ngClass]="{'border-top': i !== 0, 'border-bottom': i < filteredRecipes.length - 1}">
+            <a class="d-block" (click)="viewRecipeDetails(recipe.id)">
+              <div class="d-flex align-items-center">
+                <img *ngIf="recipe.image" [src]="recipe.image" alt="{{ recipe.recipe_name }}" style="width: 100px; height: 65px;">
+                <h5 class="card-title mb-0 ml-2">{{ recipe.recipe_name }}</h5>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </ng-container>
+      <ng-template #emptyList>
+        <p class="text-center">La lista de recetas está vacía.</p>
+        <p class="text-center">Prueba agregando una nueva :D!</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
